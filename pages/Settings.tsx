@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { AppSettings, SystemLog } from '../types';
 import { StorageService } from '../services/storageService';
-import { Save, Upload, Download, Database, Shield, Users, Trash2, Plus } from 'lucide-react';
+import { Save, Upload, Download, Database, Shield, Users, Trash2, Plus, Image as ImageIcon } from 'lucide-react';
 
 interface SettingsProps {
   settings: AppSettings;
@@ -12,14 +12,21 @@ interface SettingsProps {
 
 export const SettingsPage: React.FC<SettingsProps> = ({ settings, logs, onSaveSettings, onRestore }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const logoInputRef = useRef<HTMLInputElement>(null);
+  
   const [instName, setInstName] = useState(settings.institutionName);
+  const [instLogo, setInstLogo] = useState(settings.institutionLogo || '');
   
   // Admin Management State
   const [newAdminName, setNewAdminName] = useState('');
   const [newAdminMatricula, setNewAdminMatricula] = useState('');
 
   const handleSave = () => {
-    onSaveSettings({ ...settings, institutionName: instName });
+    onSaveSettings({ 
+        ...settings, 
+        institutionName: instName,
+        institutionLogo: instLogo
+    });
     alert('Configurações salvas!');
   };
 
@@ -34,6 +41,17 @@ export const SettingsPage: React.FC<SettingsProps> = ({ settings, logs, onSaveSe
               }
           });
       }
+  };
+
+  const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setInstLogo(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+    }
   };
 
   const handleAddAdmin = () => {
@@ -68,7 +86,44 @@ export const SettingsPage: React.FC<SettingsProps> = ({ settings, logs, onSaveSe
           <h3 className="text-lg font-bold mb-4 text-slate-800 dark:text-white flex items-center gap-2">
             <Shield size={20} /> Identidade Visual
           </h3>
-          <div className="max-w-md space-y-4">
+          <div className="max-w-md space-y-6">
+              {/* Logo Selection */}
+              <div>
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Logotipo da Instituição</label>
+                  <div className="flex items-center gap-4">
+                      <div className="relative w-24 h-24 bg-slate-50 dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-600 flex items-center justify-center overflow-hidden">
+                          {instLogo ? (
+                              <img src={instLogo} alt="Logo Preview" className="w-full h-full object-contain p-1" />
+                          ) : (
+                              <ImageIcon size={32} className="text-slate-300" />
+                          )}
+                      </div>
+                      <div className="flex flex-col gap-2">
+                          <button 
+                              onClick={() => logoInputRef.current?.click()}
+                              className="px-3 py-1.5 text-sm bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors"
+                          >
+                              Carregar Imagem
+                          </button>
+                          {instLogo && (
+                              <button 
+                                  onClick={() => setInstLogo('')}
+                                  className="px-3 py-1.5 text-sm text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors text-left"
+                              >
+                                  Remover Logo
+                              </button>
+                          )}
+                          <input 
+                              type="file" 
+                              ref={logoInputRef} 
+                              onChange={handleLogoUpload} 
+                              className="hidden" 
+                              accept="image/*"
+                          />
+                      </div>
+                  </div>
+              </div>
+
               <div>
                   <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Nome da Instituição</label>
                   <input 

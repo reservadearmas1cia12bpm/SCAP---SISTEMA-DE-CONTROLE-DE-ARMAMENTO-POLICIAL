@@ -18,8 +18,12 @@ export const Header: React.FC<HeaderProps> = ({ armorer, settings, onLogout, tog
             <Menu className="w-6 h-6 text-slate-600 dark:text-slate-300" />
         </button>
         <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-police-600 rounded-md flex items-center justify-center text-white font-bold">
-                <Shield size={18} />
+            <div className={`w-8 h-8 rounded-md flex items-center justify-center overflow-hidden ${settings.institutionLogo ? 'bg-transparent' : 'bg-police-600 text-white font-bold'}`}>
+                {settings.institutionLogo ? (
+                    <img src={settings.institutionLogo} alt="Logo" className="w-full h-full object-contain" />
+                ) : (
+                    <Shield size={18} />
+                )}
             </div>
             <h1 className="text-lg font-bold text-slate-800 dark:text-white hidden sm:block">
                 {settings.institutionName}

@@ -84,8 +84,12 @@ const App: React.FC = () => {
       return (
           <div className="min-h-screen bg-slate-100 dark:bg-slate-900 flex items-center justify-center p-4">
               <div className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-xl w-full max-w-md text-center">
-                  <div className="w-20 h-20 bg-police-600 rounded-2xl mx-auto flex items-center justify-center text-white mb-6 shadow-lg shadow-police-600/30">
-                      <Shield size={48} />
+                  <div className={`w-24 h-24 mx-auto flex items-center justify-center mb-6 overflow-hidden ${settings.institutionLogo ? '' : 'bg-police-600 rounded-2xl text-white shadow-lg shadow-police-600/30'}`}>
+                      {settings.institutionLogo ? (
+                          <img src={settings.institutionLogo} alt="Logo" className="w-full h-full object-contain" />
+                      ) : (
+                           <Shield size={48} />
+                      )}
                   </div>
                   <h1 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">{settings.institutionName}</h1>
                   <p className="text-slate-500 dark:text-slate-400 mb-8">Controle de Material Bélico</p>
