@@ -1,1 +1,10 @@
-echo { "name": "Reserva de Armamento PM", "short_name": "ReservaPM", "description": "Sistema de reserva de armamento da Polícia Militar", "start_url": "/", "display": "standalone", "background_color": "#ffffff", "theme_color": "#1a237e", "icons": [] } > manifest.json
+{
+  "name": "Reserva de Armamento PM",
+  "short_name": "ReservaPM",
+  "description": "Sistema de reserva de armamento da Polícia Militar",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1a237e",
+  "icons": []
+}
