@@ -13,308 +13,91 @@
     <meta name="description" content="Sistema de controle e reserva de armamento da Polícia Militar">
     
     <!-- PWA Manifest -->
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="/manifest.json">
     
     <!-- Ícones -->
-    <link rel="icon" type="image/png" href="icons/favicon-196.png">
-    <link rel="apple-touch-icon" href="icons/apple-icon-180.png">
+    <link rel="icon" type="image/png" href="/icons/favicon-196.png">
+    <link rel="apple-touch-icon" href="/icons/apple-icon-180.png">
 
     <title>Sentinela - Controle Bélico</title>
-    
-    <!-- CSS SIMPLES SEM TAILWIND -->
+
+    <!-- Loading simples enquanto React carrega -->
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      
-      body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #0f766e 0%, #115e59 100%);
-        color: white;
-        min-height: 100vh;
-        -webkit-tap-highlight-color: transparent;
-        padding: 20px;
-      }
-      
-      .container {
-        max-width: 600px;
-        margin: 0 auto;
-        text-align: center;
-      }
-      
-      .logo {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-      }
-      
-      h1 {
-        font-size: 2.5rem;
-        margin-bottom: 0.5rem;
-        font-weight: bold;
-      }
-      
-      .subtitle {
-        font-size: 1.5rem;
-        margin-bottom: 2rem;
-        opacity: 0.9;
-      }
-      
-      .card {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border-radius: 15px;
-        padding: 2rem;
-        margin-bottom: 2rem;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-      }
-      
-      .status {
-        background: rgba(0, 0, 0, 0.3);
-        padding: 10px 15px;
-        border-radius: 8px;
-        margin: 10px 0;
-        font-size: 0.9rem;
-      }
-      
-      .btn {
-        background: #0f766e;
-        color: white;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 8px;
-        font-size: 1rem;
-        font-weight: bold;
-        cursor: pointer;
-        margin: 5px;
-        transition: background 0.3s;
-      }
-      
-      .btn:hover {
-        background: #0d9488;
-      }
-      
-      .btn-install {
-        background: #dc2626;
+      #loading {
         position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 1000;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #0f766e 0%, #115e59 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-family: Arial, sans-serif;
+        z-index: 9999;
       }
-      
-      .btn-install:hover {
-        background: #b91c1c;
-      }
-      
-      .loading {
-        display: inline-block;
-        width: 40px;
-        height: 40px;
-        border: 3px solid rgba(255,255,255,0.3);
+      .spinner {
+        border: 4px solid rgba(255,255,255,0.3);
         border-radius: 50%;
-        border-top: 3px solid white;
+        border-top: 4px solid white;
+        width: 50px;
+        height: 50px;
         animation: spin 1s linear infinite;
-        margin: 1rem 0;
+        margin-bottom: 20px;
       }
-      
       @keyframes spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
-      }
-      
-      .pwa-status {
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        background: rgba(0,0,0,0.8);
-        color: white;
-        padding: 8px 12px;
-        border-radius: 6px;
-        font-size: 12px;
-        z-index: 10000;
-        border: 1px solid rgba(255,255,255,0.1);
       }
     </style>
   </head>
   
   <body>
-    <!-- Status PWA -->
-    <div id="pwa-status" class="pwa-status">🔄 Carregando...</div>
-
-    <!-- Conteúdo Principal -->
-    <div class="container">
-      <div class="logo">🚨</div>
-      <h1>SENTINELA</h1>
-      <div class="subtitle">Controle Bélico</div>
-      
-      <div class="card">
-        <h2>Sistema de Reserva de Armamento</h2>
-        <p>Polícia Militar</p>
-        
-        <div class="loading"></div>
-        
-        <div class="status">
-          <strong>Status do Sistema:</strong>
-          <div id="system-status">Verificando...</div>
-        </div>
-        
-        <div class="status">
-          <strong>PWA:</strong>
-          <div id="pwa-info">Verificando...</div>
-        </div>
-        
-        <button class="btn" onclick="checkPWA()">🔄 Verificar Status</button>
-        <button class="btn" onclick="location.reload()">🔄 Recarregar</button>
-      </div>
-      
-      <div class="card">
-        <h3>Instalar App</h3>
-        <p>Instale o Sentinela para acesso rápido:</p>
-        <button class="btn" onclick="showInstallPrompt()">📥 Instalar Agora</button>
-      </div>
+    <!-- Loading inicial -->
+    <div id="loading">
+      <div class="spinner"></div>
+      <h2>🚨 Sentinela</h2>
+      <p>Carregando sistema...</p>
     </div>
 
-    <!-- Botão de Instalação Flutuante -->
-    <button id="install-btn" class="btn btn-install" style="display: none;">📥 INSTALAR</button>
+    <!-- Div onde o React vai montar o app -->
+    <div id="root"></div>
 
+    <!-- Script do Vite/React (CRÍTICO) -->
+    <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Service Worker para PWA -->
     <script>
-      // =============================================
-      // CONFIGURAÇÃO PWA
-      // =============================================
-      
-      let deferredPrompt;
-      const pwaStatus = document.getElementById('pwa-status');
-      const systemStatus = document.getElementById('system-status');
-      const pwaInfo = document.getElementById('pwa-info');
-      const installBtn = document.getElementById('install-btn');
-      
-      // Atualizar status na tela
-      function updateStatus(element, message, color = 'white') {
-        if (element) {
-          element.textContent = message;
-          element.style.color = color;
-        }
-      }
-      
-      // =============================================
-      // SERVICE WORKER
-      // =============================================
-      
-      function registerServiceWorker() {
-        if ('serviceWorker' in navigator) {
-          const swContent = `
-            const CACHE_NAME = 'sentinela-v1';
-            self.addEventListener('install', (event) => {
-              event.waitUntil(
-                caches.open(CACHE_NAME).then((cache) => {
-                  return cache.addAll([
-                    '/',
-                    '/index.html',
-                    '/manifest.json'
-                  ]);
-                })
-              );
-            });
-            self.addEventListener('fetch', (event) => {
-              event.respondWith(
-                caches.match(event.request).then((response) => {
-                  return response || fetch(event.request);
-                })
-              );
-            });
+      // Remover loading quando React carregar
+      setTimeout(() => {
+        const loading = document.getElementById('loading');
+        if (loading && !document.getElementById('root').hasChildNodes()) {
+          loading.innerHTML = `
+            <div style="text-align: center; padding: 20px;">
+              <h2>⚠️ Sistema não carregou</h2>
+              <p>Verifique o console (F12) para erros</p>
+              <button onclick="location.reload()" style="background: white; color: #0f766e; border: none; padding: 10px 20px; border-radius: 5px; margin: 10px; cursor: pointer;">
+                Recarregar
+              </button>
+            </div>
           `;
-          
-          const blob = new Blob([swContent], { type: 'application/javascript' });
-          const swURL = URL.createObjectURL(blob);
-          
-          navigator.serviceWorker.register(swURL)
-            .then(() => {
-              updateStatus(pwaStatus, '✅ PWA Ativo', '#4ade80');
-              updateStatus(pwaInfo, 'Service Worker: ✅ Ativo');
-              URL.revokeObjectURL(swURL);
+        }
+      }, 5000);
+
+      // Service Worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/ServiceWorker.js')
+            .then(registration => {
+              console.log('✅ Service Worker registrado:', registration.scope);
             })
             .catch(error => {
-              updateStatus(pwaStatus, '⚠️ PWA Offline', '#fbbf24');
-              updateStatus(pwaInfo, 'Service Worker: ❌ Erro');
+              console.log('❌ Erro Service Worker:', error);
             });
-        } else {
-          updateStatus(pwaInfo, 'Service Worker: ❌ Não suportado');
-        }
+        });
       }
-      
-      // =============================================
-      // INSTALAÇÃO PWA
-      // =============================================
-      
-      function checkPWAStatus() {
-        const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-        const isIOSPWA = window.navigator.standalone;
-        
-        if (isStandalone || isIOSPWA) {
-          updateStatus(pwaStatus, '✅ PWA Instalado', '#4ade80');
-          updateStatus(pwaInfo, 'Modo: ✅ Aplicativo Instalado');
-          installBtn.style.display = 'none';
-        } else {
-          updateStatus(pwaStatus, '🌐 No Navegador', '#fbbf24');
-          updateStatus(pwaInfo, 'Modo: 🌐 Navegador Web');
-        }
-      }
-      
-      window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        installBtn.style.display = 'block';
-        updateStatus(pwaStatus, '📥 Pode Instalar', '#60a5fa');
-        updateStatus(pwaInfo, 'Pronto para instalação!');
-      });
-      
-      function showInstallPrompt() {
-        if (deferredPrompt) {
-          deferredPrompt.prompt();
-          deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-              updateStatus(pwaStatus, '✅ Instalado!', '#4ade80');
-              installBtn.style.display = 'none';
-            }
-            deferredPrompt = null;
-          });
-        }
-      }
-      
-      installBtn.addEventListener('click', showInstallPrompt);
-      
-      // =============================================
-      // INICIALIZAÇÃO
-      // =============================================
-      
-      window.addEventListener('DOMContentLoaded', () => {
-        console.log('🚀 Sentinela PWA - Carregado!');
-        updateStatus(systemStatus, '✅ Sistema Carregado', '#4ade80');
-        
-        registerServiceWorker();
-        checkPWAStatus();
-        
-        // Verificar se está online
-        if (navigator.onLine) {
-          updateStatus(systemStatus, '✅ Sistema Online', '#4ade80');
-        } else {
-          updateStatus(systemStatus, '⚠️ Sistema Offline', '#fbbf24');
-        }
-      });
-      
-      window.addEventListener('online', () => {
-        updateStatus(systemStatus, '✅ Sistema Online', '#4ade80');
-      });
-      
-      window.addEventListener('offline', () => {
-        updateStatus(systemStatus, '⚠️ Sistema Offline', '#fbbf24');
-      });
-      
-      // Função para verificar status manualmente
-      window.checkPWA = checkPWAStatus;
-      window.showInstallPrompt = showInstallPrompt;
-      
     </script>
   </body>
 </html>
