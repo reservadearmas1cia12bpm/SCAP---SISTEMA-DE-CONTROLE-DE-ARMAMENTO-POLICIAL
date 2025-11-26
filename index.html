@@ -4,14 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <!-- Meta Tags PWA Corrigidas -->
+    <!-- Meta Tags PWA -->
     <meta name="theme-color" content="#0f766e"/>
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Sentinela - Controle Bélico">
     <meta name="description" content="Sistema de controle e reserva de armamento da Polícia Militar">
-    <meta name="keywords" content="armamento, policia militar, reserva, controle, bélico">
     
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
@@ -19,82 +18,111 @@
     <!-- Ícones -->
     <link rel="icon" type="image/png" href="icons/favicon-196.png">
     <link rel="apple-touch-icon" href="icons/apple-icon-180.png">
-    
-    <!-- Splash Screens iOS (reduzido para performance) -->
-    <link rel="apple-touch-startup-image" href="icons/apple-splash-2048-2732.png" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="icons/apple-splash-1668-2388.png" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="icons/apple-splash-1536-2048.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
 
     <title>Sentinela - Controle Bélico</title>
     
-    <!-- Tailwind CSS via CDN (apenas desenvolvimento) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-            },
-            colors: {
-              police: {
-                50: '#f0fdfa',
-                100: '#ccfbf1',
-                200: '#99f6e4',
-                300: '#5eead4',
-                400: '#2dd4bf',
-                500: '#14b8a6',
-                600: '#0d9488',
-                700: '#0f766e',
-                800: '#115e59',
-                900: '#134e4a',
-              }
-            }
-          }
-        }
-      }
-    </script>
-    
+    <!-- CSS SIMPLES SEM TAILWIND -->
     <style>
-      body { 
-        font-family: 'Inter', sans-serif; 
-        -webkit-tap-highlight-color: transparent;
-        background: linear-gradient(135deg, #0f766e 0%, #115e59 100%);
-        min-height: 100vh;
+      * {
         margin: 0;
         padding: 0;
+        box-sizing: border-box;
       }
       
-      /* Custom Scrollbar */
-      ::-webkit-scrollbar { width: 8px; height: 8px; }
-      ::-webkit-scrollbar-track { background: transparent; }
-      ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
-      ::-webkit-scrollbar-thumb:hover { background: #64748b; }
-      
-      /* Melhorar experiência PWA */
-      @media (display-mode: standalone) {
-        body {
-          -webkit-user-select: none;
-          -webkit-touch-callout: none;
-          padding-top: env(safe-area-inset-top);
-          padding-bottom: env(safe-area-inset-bottom);
-        }
-      }
-
-      /* Loading e fallback */
-      .loading {
-        display: flex;
-        justify-content: center;
-        align-items: center;
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #0f766e 0%, #115e59 100%);
+        color: white;
         min-height: 100vh;
-        flex-direction: column;
-        gap: 1rem;
+        -webkit-tap-highlight-color: transparent;
         padding: 20px;
       }
-
+      
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      
+      .logo {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+      
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+      }
+      
+      .subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+      }
+      
+      .card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      
+      .status {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 10px 15px;
+        border-radius: 8px;
+        margin: 10px 0;
+        font-size: 0.9rem;
+      }
+      
+      .btn {
+        background: #0f766e;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        margin: 5px;
+        transition: background 0.3s;
+      }
+      
+      .btn:hover {
+        background: #0d9488;
+      }
+      
+      .btn-install {
+        background: #dc2626;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+      }
+      
+      .btn-install:hover {
+        background: #b91c1c;
+      }
+      
+      .loading {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        border: 3px solid rgba(255,255,255,0.3);
+        border-radius: 50%;
+        border-top: 3px solid white;
+        animation: spin 1s linear infinite;
+        margin: 1rem 0;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
       .pwa-status {
         position: fixed;
         top: 10px;
@@ -105,226 +133,188 @@
         border-radius: 6px;
         font-size: 12px;
         z-index: 10000;
-        backdrop-filter: blur(10px);
         border: 1px solid rgba(255,255,255,0.1);
-      }
-
-      .spinner {
-        border: 3px solid rgba(255,255,255,0.3);
-        border-radius: 50%;
-        border-top: 3px solid white;
-        width: 40px;
-        height: 40px;
-        animation: spin 1s linear infinite;
-      }
-
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
       }
     </style>
   </head>
   
-  <body class="text-slate-100">
-    <!-- Status PWA para debug -->
-    <div id="pwa-status" class="pwa-status">
-      🔄 Verificando...
-    </div>
+  <body>
+    <!-- Status PWA -->
+    <div id="pwa-status" class="pwa-status">🔄 Carregando...</div>
 
-    <!-- Conteúdo principal -->
-    <div id="root">
-      <!-- Fallback enquanto o React carrega -->
-      <div class="loading">
-        <div class="spinner"></div>
-        <h1 class="text-3xl font-bold text-center">🚨 Sentinela</h1>
-        <p class="text-xl text-center">Controle Bélico</p>
-        <p class="text-white/80 text-center mt-4">Sistema de Reserva de Armamento da PM</p>
-        <div class="mt-8 p-4 bg-white/10 rounded-lg backdrop-blur-lg">
-          <p class="text-sm text-center">Se o sistema não carregar automaticamente, verifique o console (F12)</p>
+    <!-- Conteúdo Principal -->
+    <div class="container">
+      <div class="logo">🚨</div>
+      <h1>SENTINELA</h1>
+      <div class="subtitle">Controle Bélico</div>
+      
+      <div class="card">
+        <h2>Sistema de Reserva de Armamento</h2>
+        <p>Polícia Militar</p>
+        
+        <div class="loading"></div>
+        
+        <div class="status">
+          <strong>Status do Sistema:</strong>
+          <div id="system-status">Verificando...</div>
         </div>
+        
+        <div class="status">
+          <strong>PWA:</strong>
+          <div id="pwa-info">Verificando...</div>
+        </div>
+        
+        <button class="btn" onclick="checkPWA()">🔄 Verificar Status</button>
+        <button class="btn" onclick="location.reload()">🔄 Recarregar</button>
+      </div>
+      
+      <div class="card">
+        <h3>Instalar App</h3>
+        <p>Instale o Sentinela para acesso rápido:</p>
+        <button class="btn" onclick="showInstallPrompt()">📥 Instalar Agora</button>
       </div>
     </div>
 
-    <!-- Service Worker Registration e PWA Detection -->
+    <!-- Botão de Instalação Flutuante -->
+    <button id="install-btn" class="btn btn-install" style="display: none;">📥 INSTALAR</button>
+
     <script>
       // =============================================
-      // 1. SOLUÇÃO PARA O SERVICE WORKER
-      // =============================================
-      
-      // Criar o Service Worker dinamicamente se não existir
-      function createServiceWorkerIfNeeded() {
-        // Verificar se o arquivo sw.js existe
-        return fetch('/sw.js', { method: 'HEAD' })
-          .then(response => {
-            if (response.status === 404) {
-              console.log('🛠️ Criando Service Worker dinamicamente...');
-              return registerDynamicServiceWorker();
-            }
-            return true;
-          })
-          .catch(error => {
-            console.log('🛠️ Service Worker não encontrado, criando dinamicamente...');
-            return registerDynamicServiceWorker();
-          });
-      }
-
-      function registerDynamicServiceWorker() {
-        const swContent = `
-          const CACHE_NAME = 'sentinela-pwa-v1.0.0';
-          const urlsToCache = [
-            '/',
-            '/index.html',
-            '/manifest.json',
-            '/icons/favicon-196.png'
-          ];
-
-          self.addEventListener('install', event => {
-            event.waitUntil(
-              caches.open(CACHE_NAME)
-                .then(cache => cache.addAll(urlsToCache))
-                .then(() => self.skipWaiting())
-            );
-          });
-
-          self.addEventListener('fetch', event => {
-            event.respondWith(
-              caches.match(event.request)
-                .then(response => response || fetch(event.request))
-            );
-          });
-        `;
-
-        // Criar um blob URL para o Service Worker
-        const blob = new Blob([swContent], { type: 'application/javascript' });
-        const swURL = URL.createObjectURL(blob);
-        
-        return navigator.serviceWorker.register(swURL)
-          .then(registration => {
-            console.log('✅ Service Worker registrado com sucesso (dinâmico)');
-            URL.revokeObjectURL(swURL); // Limpar URL
-            return registration;
-          });
-      }
-
-      // Registrar Service Worker
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          createServiceWorkerIfNeeded()
-            .then(() => {
-              updatePWAStatus('Service Worker: ✅ Ativo');
-            })
-            .catch(error => {
-              console.log('❌ Falha com Service Worker:', error);
-              updatePWAStatus('Service Worker: ⚠️ Offline');
-            });
-        });
-      }
-
-      // =============================================
-      // 2. DETECÇÃO DE PWA E INSTALAÇÃO
+      // CONFIGURAÇÃO PWA
       // =============================================
       
       let deferredPrompt;
-
+      const pwaStatus = document.getElementById('pwa-status');
+      const systemStatus = document.getElementById('system-status');
+      const pwaInfo = document.getElementById('pwa-info');
+      const installBtn = document.getElementById('install-btn');
+      
+      // Atualizar status na tela
+      function updateStatus(element, message, color = 'white') {
+        if (element) {
+          element.textContent = message;
+          element.style.color = color;
+        }
+      }
+      
+      // =============================================
+      // SERVICE WORKER
+      // =============================================
+      
+      function registerServiceWorker() {
+        if ('serviceWorker' in navigator) {
+          const swContent = `
+            const CACHE_NAME = 'sentinela-v1';
+            self.addEventListener('install', (event) => {
+              event.waitUntil(
+                caches.open(CACHE_NAME).then((cache) => {
+                  return cache.addAll([
+                    '/',
+                    '/index.html',
+                    '/manifest.json'
+                  ]);
+                })
+              );
+            });
+            self.addEventListener('fetch', (event) => {
+              event.respondWith(
+                caches.match(event.request).then((response) => {
+                  return response || fetch(event.request);
+                })
+              );
+            });
+          `;
+          
+          const blob = new Blob([swContent], { type: 'application/javascript' });
+          const swURL = URL.createObjectURL(blob);
+          
+          navigator.serviceWorker.register(swURL)
+            .then(() => {
+              updateStatus(pwaStatus, '✅ PWA Ativo', '#4ade80');
+              updateStatus(pwaInfo, 'Service Worker: ✅ Ativo');
+              URL.revokeObjectURL(swURL);
+            })
+            .catch(error => {
+              updateStatus(pwaStatus, '⚠️ PWA Offline', '#fbbf24');
+              updateStatus(pwaInfo, 'Service Worker: ❌ Erro');
+            });
+        } else {
+          updateStatus(pwaInfo, 'Service Worker: ❌ Não suportado');
+        }
+      }
+      
+      // =============================================
+      // INSTALAÇÃO PWA
+      // =============================================
+      
       function checkPWAStatus() {
         const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
         const isIOSPWA = window.navigator.standalone;
         
         if (isStandalone || isIOSPWA) {
-          updatePWAStatus('✅ PWA Instalado', '#4ade80');
-          document.body.classList.add('pwa-installed');
+          updateStatus(pwaStatus, '✅ PWA Instalado', '#4ade80');
+          updateStatus(pwaInfo, 'Modo: ✅ Aplicativo Instalado');
+          installBtn.style.display = 'none';
         } else {
-          updatePWAStatus('🌐 No Navegador', '#fbbf24');
+          updateStatus(pwaStatus, '🌐 No Navegador', '#fbbf24');
+          updateStatus(pwaInfo, 'Modo: 🌐 Navegador Web');
         }
       }
-
-      function updatePWAStatus(message, color = '#fbbf24') {
-        const element = document.getElementById('pwa-status');
-        if (element) {
-          element.textContent = message;
-          element.style.backgroundColor = color;
-        }
-        console.log('📱 Status PWA:', message);
-      }
-
-      // Evento para instalação do PWA
+      
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
-        updatePWAStatus('📥 Clique para Instalar', '#60a5fa');
-        
-        // Mostrar botão de instalação
-        showInstallPrompt();
+        installBtn.style.display = 'block';
+        updateStatus(pwaStatus, '📥 Pode Instalar', '#60a5fa');
+        updateStatus(pwaInfo, 'Pronto para instalação!');
       });
-
+      
       function showInstallPrompt() {
-        const existingBtn = document.getElementById('install-btn');
-        if (existingBtn) return;
-
-        const installBtn = document.createElement('button');
-        installBtn.id = 'install-btn';
-        installBtn.innerHTML = '📥 Instalar App';
-        installBtn.style.cssText = `
-          position: fixed;
-          bottom: 20px;
-          right: 20px;
-          background: #0f766e;
-          color: white;
-          border: none;
-          padding: 12px 16px;
-          border-radius: 8px;
-          font-weight: bold;
-          cursor: pointer;
-          z-index: 10000;
-          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        `;
-        
-        installBtn.onclick = async () => {
-          if (deferredPrompt) {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            if (outcome === 'accepted') {
-              updatePWAStatus('✅ Instalando...', '#4ade80');
-              installBtn.remove();
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+              updateStatus(pwaStatus, '✅ Instalado!', '#4ade80');
+              installBtn.style.display = 'none';
             }
             deferredPrompt = null;
-          }
-        };
-        
-        document.body.appendChild(installBtn);
+          });
+        }
       }
-
+      
+      installBtn.addEventListener('click', showInstallPrompt);
+      
       // =============================================
-      // 3. INICIALIZAÇÃO
+      // INICIALIZAÇÃO
       // =============================================
       
-      window.addEventListener('DOMContentLoaded', function() {
-        console.log('🚀 Sentinela PWA - Inicializado');
-        console.log('📱 User Agent:', navigator.userAgent);
+      window.addEventListener('DOMContentLoaded', () => {
+        console.log('🚀 Sentinela PWA - Carregado!');
+        updateStatus(systemStatus, '✅ Sistema Carregado', '#4ade80');
         
+        registerServiceWorker();
         checkPWAStatus();
         
-        // Verificar se React carregou após 3 segundos
-        setTimeout(() => {
-          if (!window.React) {
-            console.warn('⚠️ React não detectado - Modo estático ativo');
-            updatePWAStatus('⚡ Modo Estático', '#8b5cf6');
-          }
-        }, 3000);
+        // Verificar se está online
+        if (navigator.onLine) {
+          updateStatus(systemStatus, '✅ Sistema Online', '#4ade80');
+        } else {
+          updateStatus(systemStatus, '⚠️ Sistema Offline', '#fbbf24');
+        }
       });
-
-      // Prevenir zoom duplo no iOS
-      document.addEventListener('touchstart', function(event) {
-        if (event.touches.length > 1) event.preventDefault();
+      
+      window.addEventListener('online', () => {
+        updateStatus(systemStatus, '✅ Sistema Online', '#4ade80');
       });
-
-      let lastTouchEnd = 0;
-      document.addEventListener('touchend', function(event) {
-        const now = Date.now();
-        if (now - lastTouchEnd <= 300) event.preventDefault();
-        lastTouchEnd = now;
-      }, false);
-
+      
+      window.addEventListener('offline', () => {
+        updateStatus(systemStatus, '⚠️ Sistema Offline', '#fbbf24');
+      });
+      
+      // Função para verificar status manualmente
+      window.checkPWA = checkPWAStatus;
+      window.showInstallPrompt = showInstallPrompt;
+      
     </script>
   </body>
 </html>
