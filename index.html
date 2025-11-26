@@ -4,8 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <!-- Meta Tags PWA -->
+    <!-- Meta Tags PWA Corrigidas -->
     <meta name="theme-color" content="#0f766e"/>
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Sentinela - Controle Bélico">
@@ -23,18 +24,10 @@
     <link rel="apple-touch-startup-image" href="icons/apple-splash-2048-2732.png" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
     <link rel="apple-touch-startup-image" href="icons/apple-splash-1668-2388.png" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
     <link rel="apple-touch-startup-image" href="icons/apple-splash-1536-2048.png" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="icons/apple-splash-1179-2556.png" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="icons/apple-splash-1284-2778.png" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="icons/apple-splash-1170-2532.png" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="icons/apple-splash-1125-2436.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="icons/apple-splash-1242-2688.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="icons/apple-splash-828-1792.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="icons/apple-splash-750-1334.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-    <link rel="apple-touch-startup-image" href="icons/apple-splash-640-1136.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
 
     <title>Sentinela - Controle Bélico</title>
     
-    <!-- CSS e Fontes -->
+    <!-- Tailwind CSS via CDN (apenas desenvolvimento) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
@@ -71,6 +64,8 @@
         -webkit-tap-highlight-color: transparent;
         background: linear-gradient(135deg, #0f766e 0%, #115e59 100%);
         min-height: 100vh;
+        margin: 0;
+        padding: 0;
       }
       
       /* Custom Scrollbar */
@@ -97,6 +92,7 @@
         min-height: 100vh;
         flex-direction: column;
         gap: 1rem;
+        padding: 20px;
       }
 
       .pwa-status {
@@ -110,24 +106,26 @@
         font-size: 12px;
         z-index: 10000;
         backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.1);
+      }
+
+      .spinner {
+        border: 3px solid rgba(255,255,255,0.3);
+        border-radius: 50%;
+        border-top: 3px solid white;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
       }
     </style>
-    
-    <script type="importmap">
-      {
-        "imports": {
-          "react": "https://aistudiocdn.com/react@^19.2.0",
-          "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-          "react/": "https://aistudiocdn.com/react@^19.2.0/",
-          "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0",
-          "recharts": "https://aistudiocdn.com/recharts@^3.4.1",
-          "jszip": "https://cdn.jsdelivr.net/npm/jszip@3.10.1/+esm"
-        }
-      }
-    </script>
   </head>
   
-  <body class="text-slate-100 transition-colors duration-200">
+  <body class="text-slate-100">
     <!-- Status PWA para debug -->
     <div id="pwa-status" class="pwa-status">
       🔄 Verificando...
@@ -137,66 +135,107 @@
     <div id="root">
       <!-- Fallback enquanto o React carrega -->
       <div class="loading">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
-        <h1 class="text-2xl font-bold">Sentinela - Controle Bélico</h1>
-        <p class="text-white/80">Carregando sistema...</p>
-        <div id="fallback-content" class="text-center mt-8 hidden">
-          <div class="bg-white/10 backdrop-blur-lg rounded-lg p-6 max-w-md mx-auto">
-            <h2 class="text-xl font-semibold mb-4">Sistema de Reserva de Armamento</h2>
-            <p class="mb-4">Se esta mensagem permanecer, verifique o console (F12) para erros.</p>
-            <button onclick="location.reload()" class="bg-white text-teal-800 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 transition">
-              Recarregar Página
-            </button>
-          </div>
+        <div class="spinner"></div>
+        <h1 class="text-3xl font-bold text-center">🚨 Sentinela</h1>
+        <p class="text-xl text-center">Controle Bélico</p>
+        <p class="text-white/80 text-center mt-4">Sistema de Reserva de Armamento da PM</p>
+        <div class="mt-8 p-4 bg-white/10 rounded-lg backdrop-blur-lg">
+          <p class="text-sm text-center">Se o sistema não carregar automaticamente, verifique o console (F12)</p>
         </div>
       </div>
     </div>
 
     <!-- Service Worker Registration e PWA Detection -->
     <script>
-      // Registrar Service Worker para PWA
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('/sw.js')
-            .then(function(registration) {
-              console.log('✅ Service Worker registrado com sucesso: ', registration.scope);
-              updatePWAStatus('Service Worker: ✅ Registrado');
-            })
-            .catch(function(error) {
-              console.log('❌ Falha ao registrar Service Worker: ', error);
-              updatePWAStatus('Service Worker: ❌ Erro - ' + error.message);
-            });
-        });
-      } else {
-        updatePWAStatus('Service Worker: ❌ Não suportado');
+      // =============================================
+      // 1. SOLUÇÃO PARA O SERVICE WORKER
+      // =============================================
+      
+      // Criar o Service Worker dinamicamente se não existir
+      function createServiceWorkerIfNeeded() {
+        // Verificar se o arquivo sw.js existe
+        return fetch('/sw.js', { method: 'HEAD' })
+          .then(response => {
+            if (response.status === 404) {
+              console.log('🛠️ Criando Service Worker dinamicamente...');
+              return registerDynamicServiceWorker();
+            }
+            return true;
+          })
+          .catch(error => {
+            console.log('🛠️ Service Worker não encontrado, criando dinamicamente...');
+            return registerDynamicServiceWorker();
+          });
       }
 
-      // Detectar e mostrar status do PWA
+      function registerDynamicServiceWorker() {
+        const swContent = `
+          const CACHE_NAME = 'sentinela-pwa-v1.0.0';
+          const urlsToCache = [
+            '/',
+            '/index.html',
+            '/manifest.json',
+            '/icons/favicon-196.png'
+          ];
+
+          self.addEventListener('install', event => {
+            event.waitUntil(
+              caches.open(CACHE_NAME)
+                .then(cache => cache.addAll(urlsToCache))
+                .then(() => self.skipWaiting())
+            );
+          });
+
+          self.addEventListener('fetch', event => {
+            event.respondWith(
+              caches.match(event.request)
+                .then(response => response || fetch(event.request))
+            );
+          });
+        `;
+
+        // Criar um blob URL para o Service Worker
+        const blob = new Blob([swContent], { type: 'application/javascript' });
+        const swURL = URL.createObjectURL(blob);
+        
+        return navigator.serviceWorker.register(swURL)
+          .then(registration => {
+            console.log('✅ Service Worker registrado com sucesso (dinâmico)');
+            URL.revokeObjectURL(swURL); // Limpar URL
+            return registration;
+          });
+      }
+
+      // Registrar Service Worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          createServiceWorkerIfNeeded()
+            .then(() => {
+              updatePWAStatus('Service Worker: ✅ Ativo');
+            })
+            .catch(error => {
+              console.log('❌ Falha com Service Worker:', error);
+              updatePWAStatus('Service Worker: ⚠️ Offline');
+            });
+        });
+      }
+
+      // =============================================
+      // 2. DETECÇÃO DE PWA E INSTALAÇÃO
+      // =============================================
+      
+      let deferredPrompt;
+
       function checkPWAStatus() {
-        const statusElement = document.getElementById('pwa-status');
         const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
         const isIOSPWA = window.navigator.standalone;
         
-        let status = '🌐 Navegador';
-        let color = '#fbbf24'; // amarelo
-        
         if (isStandalone || isIOSPWA) {
-          status = '✅ PWA Instalado';
-          color = '#4ade80'; // verde
+          updatePWAStatus('✅ PWA Instalado', '#4ade80');
           document.body.classList.add('pwa-installed');
+        } else {
+          updatePWAStatus('🌐 No Navegador', '#fbbf24');
         }
-
-        // Verificar se pode ser instalado
-        if (!isStandalone && !isIOSPWA) {
-          window.addEventListener('beforeinstallprompt', (e) => {
-            status = '📥 Pode Instalar';
-            color = '#60a5fa'; // azul
-            updatePWAStatus(status, color);
-          });
-        }
-
-        updatePWAStatus(status, color);
-        return status;
       }
 
       function updatePWAStatus(message, color = '#fbbf24') {
@@ -208,37 +247,84 @@
         console.log('📱 Status PWA:', message);
       }
 
-      // Verificar ao carregar e quando a visibilidade muda
-      window.addEventListener('DOMContentLoaded', checkPWAStatus);
-      document.addEventListener('visibilitychange', checkPWAStatus);
+      // Evento para instalação do PWA
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        updatePWAStatus('📥 Clique para Instalar', '#60a5fa');
+        
+        // Mostrar botão de instalação
+        showInstallPrompt();
+      });
 
-      // Mostrar fallback se o React não carregar
-      setTimeout(() => {
-        if (!window.React) {
-          document.getElementById('fallback-content').classList.remove('hidden');
-          updatePWAStatus('⚠️ React não carregou', '#f87171');
-        }
-      }, 5000);
+      function showInstallPrompt() {
+        const existingBtn = document.getElementById('install-btn');
+        if (existingBtn) return;
 
-      // Prevenir zoom em campos de input no iOS
+        const installBtn = document.createElement('button');
+        installBtn.id = 'install-btn';
+        installBtn.innerHTML = '📥 Instalar App';
+        installBtn.style.cssText = `
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          background: #0f766e;
+          color: white;
+          border: none;
+          padding: 12px 16px;
+          border-radius: 8px;
+          font-weight: bold;
+          cursor: pointer;
+          z-index: 10000;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        `;
+        
+        installBtn.onclick = async () => {
+          if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') {
+              updatePWAStatus('✅ Instalando...', '#4ade80');
+              installBtn.remove();
+            }
+            deferredPrompt = null;
+          }
+        };
+        
+        document.body.appendChild(installBtn);
+      }
+
+      // =============================================
+      // 3. INICIALIZAÇÃO
+      // =============================================
+      
+      window.addEventListener('DOMContentLoaded', function() {
+        console.log('🚀 Sentinela PWA - Inicializado');
+        console.log('📱 User Agent:', navigator.userAgent);
+        
+        checkPWAStatus();
+        
+        // Verificar se React carregou após 3 segundos
+        setTimeout(() => {
+          if (!window.React) {
+            console.warn('⚠️ React não detectado - Modo estático ativo');
+            updatePWAStatus('⚡ Modo Estático', '#8b5cf6');
+          }
+        }, 3000);
+      });
+
+      // Prevenir zoom duplo no iOS
       document.addEventListener('touchstart', function(event) {
-        if (event.touches.length > 1) {
-          event.preventDefault();
-        }
+        if (event.touches.length > 1) event.preventDefault();
       });
 
       let lastTouchEnd = 0;
       document.addEventListener('touchend', function(event) {
-        const now = (new Date()).getTime();
-        if (now - lastTouchEnd <= 300) {
-          event.preventDefault();
-        }
+        const now = Date.now();
+        if (now - lastTouchEnd <= 300) event.preventDefault();
         lastTouchEnd = now;
       }, false);
 
-      // Log inicial
-      console.log('🚀 Sentinela PWA - Inicializado');
-      console.log('📱 User Agent:', navigator.userAgent);
     </script>
   </body>
 </html>
