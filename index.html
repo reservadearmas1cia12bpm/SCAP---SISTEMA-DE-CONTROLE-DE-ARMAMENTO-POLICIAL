@@ -62,8 +62,8 @@
 
     <div id="root"></div>
 
-    <!-- Script principal APONTANDO PARA ARQUIVO NA RAIZ -->
-    <script type="module" src="/main.tsx"></script>
+    <!-- REMOVA COMPLETAMENTE A LINHA DO SCRIPT -->
+    <!-- O Vite vai injetar automaticamente -->
 
     <script>
       setTimeout(() => {
@@ -81,9 +81,11 @@
         }
       }, 5000);
 
+      // Service Worker - COMENTE POR ENQUANTO
+      /*
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/ServiceWorker.js')
+          navigator.serviceWorker.register('/sw.js')
             .then(registration => {
               console.log('✅ Service Worker registrado:', registration.scope);
             })
@@ -92,6 +94,7 @@
             });
         });
       }
+      */
     </script>
   </body>
 </html>
