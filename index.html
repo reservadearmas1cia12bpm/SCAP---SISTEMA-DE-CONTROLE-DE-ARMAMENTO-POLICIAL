@@ -21,7 +21,6 @@
 
     <title>Sentinela - Controle Bélico</title>
 
-    <!-- Loading simples enquanto React carrega -->
     <style>
       #loading {
         position: fixed;
@@ -55,35 +54,18 @@
   </head>
   
   <body>
-    <!-- Loading inicial -->
     <div id="loading">
       <div class="spinner"></div>
       <h2>🚨 Sentinela</h2>
       <p>Carregando sistema...</p>
     </div>
 
-    <!-- Div onde o React vai montar o app -->
     <div id="root"></div>
 
-    <!-- Script do Vite/React (CORRIGIDO) -->
-    <script type="module">
-      import('./src/main.tsx').catch(error => {
-        console.error('Erro ao carregar a aplicação:', error);
-        document.getElementById('loading').innerHTML = `
-          <div style="text-align: center; padding: 20px;">
-            <h2>❌ Erro ao carregar sistema</h2>
-            <p>${error.message}</p>
-            <button onclick="location.reload()" style="background: white; color: #0f766e; border: none; padding: 10px 20px; border-radius: 5px; margin: 10px; cursor: pointer;">
-              Recarregar
-            </button>
-          </div>
-        `;
-      });
-    </script>
+    <!-- Script principal APONTANDO PARA ARQUIVO NA RAIZ -->
+    <script type="module" src="/main.tsx"></script>
 
-    <!-- Service Worker para PWA -->
     <script>
-      // Remover loading quando React carregar
       setTimeout(() => {
         const loading = document.getElementById('loading');
         if (loading && !document.getElementById('root').hasChildNodes()) {
@@ -99,10 +81,9 @@
         }
       }, 5000);
 
-      // Service Worker
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
+          navigator.serviceWorker.register('/ServiceWorker.js')
             .then(registration => {
               console.log('✅ Service Worker registrado:', registration.scope);
             })
