@@ -66,7 +66,20 @@
     <div id="root"></div>
 
     <!-- Script do Vite/React (CORRIGIDO) -->
-    <script type="module" src="./src/main.tsx"></script>
+    <script type="module">
+      import('./src/main.tsx').catch(error => {
+        console.error('Erro ao carregar a aplicação:', error);
+        document.getElementById('loading').innerHTML = `
+          <div style="text-align: center; padding: 20px;">
+            <h2>❌ Erro ao carregar sistema</h2>
+            <p>${error.message}</p>
+            <button onclick="location.reload()" style="background: white; color: #0f766e; border: none; padding: 10px 20px; border-radius: 5px; margin: 10px; cursor: pointer;">
+              Recarregar
+            </button>
+          </div>
+        `;
+      });
+    </script>
 
     <!-- Service Worker para PWA -->
     <script>
