@@ -5,6 +5,8 @@ import react from '@vitejs/plugin-react';
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     return {
+      root: '.',
+      publicDir: 'public',
       server: {
         port: 3000,
         host: '0.0.0.0',
@@ -22,14 +24,7 @@ export default defineConfig(({ mode }) => {
       build: {
         outDir: 'dist',
         sourcemap: false,
-        rollupOptions: {
-          input: {
-            main: path.resolve(__dirname, 'index.html')
-          }
-        }
-      },
-      // ADICIONE ESTA PARTE
-      root: '.',
-      publicDir: 'public'
+        emptyOutDir: true
+      }
     };
 });
