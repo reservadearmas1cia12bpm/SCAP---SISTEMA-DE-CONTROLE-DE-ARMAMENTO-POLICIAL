@@ -65,8 +65,8 @@
     <!-- Div onde o React vai montar o app -->
     <div id="root"></div>
 
-    <!-- Script do Vite/React (CRÍTICO) -->
-    <script type="module" src="/src/main.tsx"></script>
+    <!-- Script do Vite/React (CORRIGIDO) -->
+    <script type="module" src="./src/main.tsx"></script>
 
     <!-- Service Worker para PWA -->
     <script>
@@ -89,7 +89,7 @@
       // Service Worker
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/ServiceWorker.js')
+          navigator.serviceWorker.register('/sw.js')
             .then(registration => {
               console.log('✅ Service Worker registrado:', registration.scope);
             })
