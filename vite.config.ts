@@ -19,15 +19,17 @@ export default defineConfig(({ mode }) => {
           '@': path.resolve(__dirname, '.'),
         }
       },
-      // ADICIONE ESTA PARTE PARA BUILD
       build: {
         outDir: 'dist',
         sourcemap: false,
         rollupOptions: {
-          output: {
-            manualChunks: undefined
+          input: {
+            main: path.resolve(__dirname, 'index.html')
           }
         }
-      }
+      },
+      // ADICIONE ESTA PARTE
+      root: '.',
+      publicDir: 'public'
     };
 });
