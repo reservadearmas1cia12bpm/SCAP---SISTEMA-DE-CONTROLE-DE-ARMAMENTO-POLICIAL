@@ -18,9 +18,6 @@ export default defineConfig(({ mode }) => {
           registerType: 'autoUpdate',
           workbox: {
             globPatterns: ['**/*.{js,css,html,ico,png,svg}']
-          },
-          manifest: {
-            // Suas configurações atuais do manifest
           }
         })
       ],
@@ -37,14 +34,7 @@ export default defineConfig(({ mode }) => {
         outDir: 'dist',
         sourcemap: false,
         emptyOutDir: true,
-        // ADICIONE ESTAS CONFIGURAÇÕES:
-        rollupOptions: {
-          input: {
-            main: path.resolve(__dirname, 'index.html')
-          }
-        }
       },
-      // IMPORTANTE para Vercel:
       base: '/'
     };
 });
